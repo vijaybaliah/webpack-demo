@@ -19,13 +19,38 @@ const developmentConfig = () => {
       historyApiFallback: true,
       stats: 'errors-only',
       host: process.env.HOST,
-      port: process.env.PORT
+      port: process.env.PORT,
+      overlay: {
+        errors: true,
+        warnings: true
+      }
+    },
+    module: {
+      rules: [{
+          test: /\.js$/,
+          enforce: 'pre',
+          loader: 'eslint-loader',
+          options: {
+            emitWarning: true
+          }
+      }]
     },
     plugins: [
       ...commonConfig.plugins,
       new webpack.WatchIgnorePlugin([
-        path.join(__dirname, 'node_modules')
-      ])
+          path.join(__dirname, 'node_modules')
+        ]),
+      new webpack.LoaderOptionsPlugin({
+          options: {
+            failOnWarning: false,
+            failOnError: true,
+            fix: true,
+            outputReport: {
+              filePath: 'checkstyle.xml',
+              formatter: require('eslint/lib/formatters/checkstyle'),
+            }
+          }
+        })
     ],
   }
 
