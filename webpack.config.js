@@ -24,7 +24,14 @@ const commonConfig = merge([
       })
     ]
   },
-  parts.lintJavaScript({ include: PATHS.app })
+  parts.lintJavaScript({ include: PATHS.app }),
+  parts.loadCSS({
+    options: {
+      modules: true,
+      localIdentName: '[local]--[hash:base64:5]',
+      importLoaders: 1,
+    }
+  })
 ])
 
 const productionConfig = merge([])
@@ -35,6 +42,8 @@ const developmentConfig = merge([
     port: process.env.PORT
   })
 ])
+
+console.log('\n====webpack config====:\n', merge(commonConfig, developmentConfig))
 
 module.exports = (env) => {
   if (env === 'production') {
