@@ -1,3 +1,5 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
     watchOptions: {
@@ -28,6 +30,7 @@ exports.lintJavaScript =({ include, exclude, options }) => ({
   }
 })
 
+// Deprecate loadcss
 exports.loadCSS = ({ include, exclude, options }) => ({
   module: {
     rules: [{
@@ -50,5 +53,37 @@ exports.loadCSS = ({ include, exclude, options }) => ({
         }
       ],
     }]
+  }
+})
+
+exports.extractCSS = ({ include, exclude, use, env }) => {
+  // TODO: seperate development and prod
+  // ref: https://github.com/webpack-contrib/mini-css-extract-plugin
+  const plugin = new MiniCssExtractPlugin({
+    filename: '[name].css'
+  });
+
+  return {
+    module: {
+      rules: [{
+        test: /\.css$/,
+        include,
+        exclude,
+        use: [
+          MiniCssExtractPlugin.loader,
+          ...use
+        ]
+      }]
+    },
+    plugins: [plugin]
+  }
+}
+
+exports.autoprefix = () => ({
+  loader: 'postcss-loader',
+  options : {
+    plugins : () => ([
+      require('autoprefixer')()
+    ]), 
   }
 })

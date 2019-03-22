@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 const webpack = require('webpack');
@@ -25,12 +26,25 @@ const commonConfig = merge([
     ]
   },
   parts.lintJavaScript({ include: PATHS.app }),
-  parts.loadCSS({
-    options: {
-      modules: true,
-      localIdentName: '[local]--[hash:base64:5]',
-      importLoaders: 1,
-    }
+  // parts.loadCSS({
+  //   options: {
+  //     modules: true,
+  //     localIdentName: '[local]--[hash:base64:5]',
+  //     importLoaders: 1,
+  //   }
+  // })
+  parts.extractCSS({
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          localIdentName: '[local]--[hash:base64:5]',
+          importLoaders: 1,
+        }
+      },
+      parts.autoprefix()
+    ]
   })
 ])
 
@@ -44,6 +58,7 @@ const developmentConfig = merge([
 ])
 
 console.log('\n====webpack config====:\n', merge(commonConfig, developmentConfig))
+console.log('\nrules: ', commonConfig.module.rules[1].use)
 
 module.exports = (env) => {
   if (env === 'production') {
