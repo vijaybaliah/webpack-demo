@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -87,3 +88,10 @@ exports.autoprefix = () => ({
     ]), 
   }
 })
+
+exports.purifyCSS = ({ paths }) => ({
+  plugins: [
+    new PurifyCSSPlugin({ paths })
+  ]
+})
+

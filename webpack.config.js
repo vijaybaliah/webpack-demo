@@ -1,9 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 const webpack = require('webpack');
+const glob = require('glob');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -48,7 +48,9 @@ const commonConfig = merge([
   })
 ])
 
-const productionConfig = merge([])
+const productionConfig = merge([
+  parts.purifyCSS({paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true})})
+])
 
 const developmentConfig = merge([
   parts.devServer({
