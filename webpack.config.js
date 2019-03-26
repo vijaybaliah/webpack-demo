@@ -45,7 +45,8 @@ const commonConfig = merge([
       },
       parts.autoprefix()
     ]
-  })
+  }),
+  parts.lintCSS({ include: PATHS.app })
 ])
 
 const productionConfig = merge([
