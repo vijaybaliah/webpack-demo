@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "extract-text-webpack-plugin": "^3.0.2",
+    "font-awesome": "^4.7.0",
     "glob": "^7.1.3",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
