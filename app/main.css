@@ -1,5 +1,6 @@
 body {
-  background: #FFFFFF;
+  background: #ffffff;
+  background-image: url('./asphalt-back.jpg');
 }
 
 .redButton {

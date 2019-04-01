@@ -50,14 +50,21 @@ const commonConfig = merge([
 ])
 
 const productionConfig = merge([
-  parts.purifyCSS({paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true})})
+  parts.purifyCSS({paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true})}),
+  parts.loadImages({
+    options: {
+      limit: 15000,
+      name: '[name].[ext]'
+    }
+  })
 ])
 
 const developmentConfig = merge([
   parts.devServer({
     host: process.env.HOST,
     port: process.env.PORT
-  })
+  }),
+  parts.loadImages()
 ])
 
 console.log('\n====webpack config====:\n', merge(commonConfig, developmentConfig))
