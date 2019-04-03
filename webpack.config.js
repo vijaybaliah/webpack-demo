@@ -51,6 +51,9 @@ const commonConfig = merge([
     options: {
       name: '[name].[ext]'
     }
+  }),
+  parts.loadJavaScripts({
+    include:  PATHS.app
   })
 ])
 
