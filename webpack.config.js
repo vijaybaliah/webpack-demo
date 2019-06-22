@@ -58,6 +58,19 @@ const commonConfig = merge([
 ])
 
 const productionConfig = merge([
+  {
+    entry: {
+      vendor: ['react']
+    }
+  },
+  {
+      plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor'
+      }),
+    ]
+  },
+  parts.generateSourceMaps({ type: 'source-map' }),
   parts.purifyCSS({paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true})}),
   parts.loadImages({
     options: {
@@ -68,11 +81,17 @@ const productionConfig = merge([
 ])
 
 const developmentConfig = merge([
+  {
+    output: {
+      devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
+    },
+  },
+  parts.generateSourceMaps({ type: 'cheap-module-eval-source-map' }),
   parts.devServer({
     host: process.env.HOST,
     port: process.env.PORT
   }),
-  parts.loadImages()
+  parts.loadImages(),
 ])
 
 console.log('\n====webpack config====:\n', merge(commonConfig, developmentConfig))
