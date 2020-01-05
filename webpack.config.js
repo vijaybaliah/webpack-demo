@@ -58,18 +58,19 @@ const commonConfig = merge([
 ])
 
 const productionConfig = merge([
-  {
-    entry: {
-      vendor: ['react']
-    }
-  },
-  {
-      plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor'
-      }),
-    ]
-  },
+  parts.clean(),
+  // {
+  //   entry: {
+  //     vendor: ['react']
+  //   }
+  // },
+  // {
+  //     plugins: [
+  //     new webpack.optimize.CommonsChunkPlugin({
+  //       name: 'vendor'
+  //     }),
+  //   ]
+  // },
   parts.generateSourceMaps({ type: 'source-map' }),
   parts.purifyCSS({paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true})}),
   parts.loadImages({
