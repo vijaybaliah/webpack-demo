@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
-const webpack = require('webpack');
 const glob = require('glob');
 
 const PATHS = {
@@ -78,7 +77,8 @@ const productionConfig = merge([
       limit: 15000,
       name: '[name].[ext]'
     }
-  })
+  }),
+  parts.addRevision()
 ])
 
 const developmentConfig = merge([
